@@ -4,3 +4,5 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.android.library) apply false
 }
+group = "com.github.jenkinsZhou"  //  告诉 JitPack  groupId
+version = "1.0.0"
