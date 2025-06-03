@@ -5,8 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("maven-publish")
 }
-group = "com.github.jenkinsZhou"
-version = "1.0.2"
+
 android {
     namespace = "com.fangtian.ftlibwrapper"
     compileSdk = 35
@@ -39,7 +38,7 @@ android {
 
 }
 group = "com.github.jenkinsZhou"
-version = "v1.0.5" // 版本号写成 tag 的版本
+version = "v1.0.6" // 版本号写成 tag 的版本
 afterEvaluate {
     publishing {
         publications {
@@ -47,7 +46,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.jenkinsZhou"
                 artifactId = "FtSdkWrapper"
-                version = "v1.0.5"
+                version = "v1.0.6"
 
                 //  关键：过滤掉非法的 <dependency> 节点
                 pom.withXml {
