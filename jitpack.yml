@@ -1,0 +1,4 @@
+jdk: 11
+
+android:
+  module: ft_lib_wrapper
