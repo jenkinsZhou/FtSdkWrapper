@@ -38,7 +38,7 @@ android {
 
 }
 group = "com.github.jenkinsZhou"
-version = "v1.0.8" // 版本号写成 tag 的版本
+version = "v1.1.0" // 版本号写成 tag 的版本
 
         afterEvaluate {
             publishing {
@@ -47,8 +47,7 @@ version = "v1.0.8" // 版本号写成 tag 的版本
                         from(components["release"])
                         groupId = "com.github.jenkinsZhou"
                         artifactId = "FtSdkWrapper"
-                        version = "v1.0.8"
-
+                        version = "v1.1.0"
                         pom.withXml {
                             val root = asNode()
                             val depsList = root.get("dependencies")
@@ -68,6 +67,7 @@ version = "v1.0.8" // 版本号写成 tag 的版本
                                 toRemove.forEach { deps.remove(it) }
                             }
                         }
+
                     }
                 }
             }
