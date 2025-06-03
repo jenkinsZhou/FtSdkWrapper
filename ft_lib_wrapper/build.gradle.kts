@@ -38,38 +38,40 @@ android {
 
 }
 group = "com.github.jenkinsZhou"
-version = "v1.0.6" // 版本号写成 tag 的版本
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
-                from(components["release"])
-                groupId = "com.github.jenkinsZhou"
-                artifactId = "FtSdkWrapper"
-                version = "v1.0.6"
+version = "v1.0.8" // 版本号写成 tag 的版本
 
-                //  关键：过滤掉非法的 <dependency> 节点
-                pom.withXml {
-                    val dependenciesNode = asNode().get("dependencies") as? Node
-                    dependenciesNode?.let { deps ->
-                        val toRemove = mutableListOf<Node>()
-                        val children = deps.children() as NodeList
-                        for (child in children) {
-                            if (child is Node) {
-                                val artifactId = child.get("artifactId")?.toString()
-                                val groupId = child.get("groupId")?.toString()
-                                if (artifactId == "tbs" && (groupId == null || groupId.isBlank())) {
-                                    toRemove.add(child)
+        afterEvaluate {
+            publishing {
+                publications {
+                    create<MavenPublication>("release") {
+                        from(components["release"])
+                        groupId = "com.github.jenkinsZhou"
+                        artifactId = "FtSdkWrapper"
+                        version = "v1.0.8"
+
+                        pom.withXml {
+                            val root = asNode()
+                            val depsList = root.get("dependencies")
+                            if (depsList is List<*> && depsList.firstOrNull() is Node) {
+                                val deps = depsList.first() as Node
+                                val children = deps.value() as NodeList
+                                val toRemove = mutableListOf<Node>()
+                                for (child in children) {
+                                    if (child is Node) {
+                                        val artifactId = child.get("artifactId")?.toString()
+                                        val groupId = child.get("groupId")?.toString()
+                                        if (artifactId == "tbs" && (groupId == null || groupId.isBlank())) {
+                                            toRemove.add(child)
+                                        }
+                                    }
                                 }
+                                toRemove.forEach { deps.remove(it) }
                             }
                         }
-                        toRemove.forEach { deps.remove(it) }
                     }
                 }
             }
         }
-    }
-}
 
 dependencies {
 
