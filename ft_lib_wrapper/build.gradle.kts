@@ -59,5 +59,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(mapOf("name" to "tbs", "ext" to "aar"))
+    api(mapOf("name" to "tbs", "ext" to "aar"))
 }
