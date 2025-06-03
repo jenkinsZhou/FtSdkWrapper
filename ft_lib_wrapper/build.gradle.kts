@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("maven-publish")
 }
 group = "com.github.jenkinsZhou"
 version = "1.0.2"
@@ -35,8 +36,20 @@ android {
     }
 
 }
-
-
+group = "com.github.jenkinsZhou"
+version = "v1.0.3" // 版本号写成 tag 的版本
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.jenkinsZhou"
+                artifactId = "FtSdkWrapper"
+                version = "v1.0.3"
+            }
+        }
+    }
+}
 
 dependencies {
 
