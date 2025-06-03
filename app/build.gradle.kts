@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("maven-publish")
 }
 import groovy . util . Node
         import groovy . util . NodeList
@@ -49,35 +48,3 @@ dependencies {
 }
 
 
-        afterEvaluate {
-            publishing {
-                publications {
-                    create<MavenPublication>("release") {
-                        from(components["release"])
-                        groupId = "com.github.jenkinsZhou"
-                        artifactId = "FtSdkWrapper"
-                        version = "v1.0.8"
-
-                        pom.withXml {
-                            val root = asNode()
-                            val depsList = root.get("dependencies")
-                            if (depsList is List<*> && depsList.firstOrNull() is Node) {
-                                val deps = depsList.first() as Node
-                                val children = deps.value() as NodeList
-                                val toRemove = mutableListOf<Node>()
-                                for (child in children) {
-                                    if (child is Node) {
-                                        val artifactId = child.get("artifactId")?.toString()
-                                        val groupId = child.get("groupId")?.toString()
-                                        if (artifactId == "tbs" && (groupId == null || groupId.isBlank())) {
-                                            toRemove.add(child)
-                                        }
-                                    }
-                                }
-                                toRemove.forEach { deps.remove(it) }
-                            }
-                        }
-                    }
-                }
-            }
-        }
